@@ -12,6 +12,7 @@ let matched = 0;
 let gridSize = 4;
 let timeLeft = 0;
 let timer;
+
 const images = Array.from({ length: 18 }, (_, i) => `images/img${i + 1}.png`);
 const times = { 4: 120, 6: 180, 8: 240, 10: 300 };
 
@@ -56,9 +57,23 @@ function startGame() {
   cards.forEach(src => {
     const card = document.createElement("div");
     card.classList.add("card");
+
+    const inner = document.createElement("div");
+    inner.classList.add("card-inner");
+
+    const front = document.createElement("div");
+    front.classList.add("card-front");
+
+    const back = document.createElement("div");
+    back.classList.add("card-back");
     const img = document.createElement("img");
     img.src = src;
-    card.appendChild(img);
+    back.appendChild(img);
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    card.appendChild(inner);
+
     card.addEventListener("click", () => flip(card));
     gameBoard.appendChild(card);
   });
@@ -82,7 +97,10 @@ function flip(card) {
 
 function checkMatch() {
   const [a, b] = flipped;
-  if (a.querySelector("img").src === b.querySelector("img").src) {
+  const imgA = a.querySelector(".card-back img").src;
+  const imgB = b.querySelector(".card-back img").src;
+
+  if (imgA === imgB) {
     a.classList.add("matched");
     b.classList.add("matched");
     setTimeout(() => {
