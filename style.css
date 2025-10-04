@@ -38,19 +38,6 @@ h1 {
   font-weight: 600;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 100px);
-  grid-gap: 12px;
-  justify-content: center;
-}
-
-.card {
-  width: 100px;
-  height: 100px;
-  perspective: 1000px;
-}
-
 .card-inner {
   width: 100%;
   height: 100%;
@@ -84,12 +71,6 @@ h1 {
   align-items: center;
 }
 
-.card-back img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
-}
-
 button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -108,20 +89,21 @@ button:hover {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(8, 80px); /* 8 columns */
-  grid-gap: 10px;
+  grid-template-columns: repeat(6, 90px); /* 6 columns */
+  grid-gap: 12px;
   justify-content: center;
 }
 
 .card {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   perspective: 1000px;
 }
 
 .card-back img {
   width: 90%;
   height: 90%;
-  object-fit: contain; /* makes images scale correctly */
+  object-fit: contain;
   border-radius: 8px;
 }
+
