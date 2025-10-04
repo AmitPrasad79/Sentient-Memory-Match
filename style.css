@@ -105,3 +105,23 @@ button {
 button:hover {
   background: #00cccc;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, 80px); /* 8 columns */
+  grid-gap: 10px;
+  justify-content: center;
+}
+
+.card {
+  width: 80px;
+  height: 80px;
+  perspective: 1000px;
+}
+
+.card-back img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain; /* makes images scale correctly */
+  border-radius: 8px;
+}
