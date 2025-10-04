@@ -13,7 +13,7 @@ let gridSize = 4;
 let timeLeft = 0;
 let timer;
 
-const images = Array.from({ length: 18 }, (_, i) => `images/img${i + 1}.png`);
+const images = Array.from({ length: 19 }, (_, i) => `images/img${i + 1}.png`);
 const times = { 4: 120, 6: 180, 8: 240, 10: 300 };
 
 startBtn.addEventListener("click", () => startCountdown());
