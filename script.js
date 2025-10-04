@@ -100,24 +100,33 @@ function checkMatch() {
   const imgA = a.querySelector(".card-back img").src;
   const imgB = b.querySelector(".card-back img").src;
 
-  if (imgA === imgB) {
-    a.classList.add("matched");
-    b.classList.add("matched");
-    setTimeout(() => {
-      a.style.visibility = "hidden";
-      b.style.visibility = "hidden";
-    }, 400);
-    matched += 2;
-    flipped = [];
-    if (matched === cards.length) {
-      clearInterval(timer);
-      setTimeout(() => alert("🎉 You Won! Sentient brain activated!"), 200);
-    }
-  } else {
-    setTimeout(() => {
-      a.classList.remove("flipped");
-      b.classList.remove("flipped");
+  // wait for the flip animation (~600ms)
+  setTimeout(() => {
+    if (imgA === imgB) {
+      // mark as matched AFTER flip finishes
+      a.classList.add("matched");
+      b.classList.add("matched");
+
+      // small delay so vanish is smooth
+      setTimeout(() => {
+        a.style.visibility = "hidden";
+        b.style.visibility = "hidden";
+      }, 400);
+
+      matched += 2;
       flipped = [];
-    }, 700);
-  }
+
+      if (matched === cards.length) {
+        clearInterval(timer);
+        setTimeout(() => alert("🎉 You Won! Sentient brain activated!"), 300);
+      }
+    } else {
+      // flip back if not match
+      setTimeout(() => {
+        a.classList.remove("flipped");
+        b.classList.remove("flipped");
+        flipped = [];
+      }, 200);
+    }
+  }, 600); // delay ensures full flip visible
 }
