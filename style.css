@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at center, #0a0f24, #000);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.game-container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-gap: 12px;
+  justify-content: center;
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  background: #0d1b2a;
+  border-radius: 10px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0,255,255,0.2);
+}
+
+.card.flip {
+  transform: rotateY(180deg);
+}
+
+.card .front, .card .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+}
+
+.card .front {
+  background: #00ffff33;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}
+
+.card .back {
+  background: #112240;
+  transform: rotateY(180deg);
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background: #00ffff;
+  color: #000;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #00cccc;
+}
