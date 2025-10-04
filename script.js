@@ -9,13 +9,18 @@ let timerInterval;
 let firstCard, secondCard;
 let lockBoard = false;
 
-// 32 unique images for 8x8
+// ✅ Change board size here (4, 6, 8 etc.)
+const boardSize = 6; 
+const totalCards = boardSize * boardSize; 
+const uniqueImages = totalCards / 2; 
+
+// Generate image list
 const images = [];
-for (let i = 1; i <= 32; i++) {
+for (let i = 1; i <= uniqueImages; i++) {
   images.push(`img${i}.png`);
 }
 
-let cardsArray = [...images, ...images]; // 64 cards
+let cardsArray = [...images, ...images]; // duplicate for pairs
 
 function shuffle(array) {
   return array.sort(() => 0.5 - Math.random());
