@@ -9,19 +9,13 @@ let timerInterval;
 let firstCard, secondCard;
 let lockBoard = false;
 
-// Add your own image names here
-const images = [
-  'brain.png', 
-  'planet.png', 
-  'lightning.png', 
-  'robot.png', 
-  'dna.png', 
-  'star.png', 
-  'galaxy.png', 
-  'crystal.png'
-];
+// 32 unique images for 8x8
+const images = [];
+for (let i = 1; i <= 32; i++) {
+  images.push(`img${i}.png`);
+}
 
-let cardsArray = [...images, ...images];
+let cardsArray = [...images, ...images]; // 64 cards
 
 function shuffle(array) {
   return array.sort(() => 0.5 - Math.random());
