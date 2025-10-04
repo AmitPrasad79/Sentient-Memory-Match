@@ -1,93 +1,133 @@
+// script.js (replace your current file with this)
+
 const startBtn = document.getElementById("startBtn");
 const restartBtn = document.getElementById("restartBtn");
+const backBtn = document.getElementById("backBtn");
 const countdownEl = document.getElementById("countdown");
 const gameArea = document.getElementById("gameArea");
 const gameBoard = document.getElementById("gameBoard");
 const timerDisplay = document.getElementById("timer");
 const difficultySelect = document.getElementById("difficulty");
 
-let cards = [];
-let flipped = [];
-let matched = 0;
+const popup = document.getElementById("popup");
+const popupMessage = document.getElementById("popupMessage");
+const popupClose = document.getElementById("popupClose");
+
+let cards = [];           // array of card image paths (shuffled pairs)
+let flipped = [];         // currently flipped cards (DOM elements)
+let matched = 0;          // number of matched cards (count of cards, not pairs)
 let gridSize = 4;
 let timeLeft = 0;
-let timer;
+let timer = null;
+let lockBoard = false;
+let gameStarted = false;
 
-// ✅ You have 30 images
+// images (30 images as you confirmed)
 const images = Array.from({ length: 30 }, (_, i) => `images/img${i + 1}.png`);
 const times = { 4: 120, 6: 180, 8: 240, 10: 300 };
 
-// Create back button
-const backBtn = document.createElement("button");
-backBtn.textContent = "Back";
-backBtn.classList.add("restart-btn");
-backBtn.classList.add("hidden");
-backBtn.addEventListener("click", () => goBack());
-gameArea.appendChild(backBtn);
+// event listeners
+startBtn.addEventListener("click", startCountdown);
+restartBtn.addEventListener("click", () => {
+  // restart with the same difficulty and show countdown again
+  startCountdown();
+});
+backBtn.addEventListener("click", goBack);
+popupClose.addEventListener("click", () => {
+  popup.classList.add("hidden");
+  // after closing, go back to menu so user can choose mode again
+  goBack();
+});
 
-startBtn.addEventListener("click", () => startCountdown());
-restartBtn.addEventListener("click", () => startGame());
+/* ----------------- Helpers ----------------- */
+
+// Fisher-Yates shuffle (stable & good)
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ----------------- Game flow ----------------- */
 
 function startCountdown() {
+  // hide menu, show countdown
   document.querySelector(".menu").classList.add("hidden");
   countdownEl.classList.remove("hidden");
   gameArea.classList.add("hidden");
+  countdownEl.textContent = "3";
   let count = 3;
-  countdownEl.textContent = count;
+
   const interval = setInterval(() => {
     count--;
-    if (count > 0) countdownEl.textContent = count;
+    if (count > 0) countdownEl.textContent = String(count);
     else if (count === 0) countdownEl.textContent = "Go!";
     else {
       clearInterval(interval);
       countdownEl.classList.add("hidden");
       gameArea.classList.remove("hidden");
-      startGame();
+      startGame(); // actually start the game after countdown
     }
   }, 800);
 }
 
 function startGame() {
+  // clear previous timer and state
   clearInterval(timer);
   gameBoard.innerHTML = "";
   flipped = [];
   matched = 0;
-  gridSize = parseInt(difficultySelect.value);
-  timeLeft = times[gridSize];
+  lockBoard = false;
+  gameStarted = false;
+
+  gridSize = parseInt(difficultySelect.value) || 4;
+  timeLeft = times[gridSize] || 120;
   timerDisplay.textContent = `Time: ${timeLeft}s`;
+
   restartBtn.classList.remove("hidden");
   backBtn.classList.remove("hidden");
 
   const total = gridSize * gridSize;
-  const needed = total / 2;
+  const neededPairs = total / 2;
 
-  if (needed > images.length) {
-    alert("Not enough images for this grid size! Please add more images or choose an easier difficulty.");
-    goBack();
+  // create a shuffled list of images for this game, cycling if necessary
+  let pool = [];
+  // We'll repeatedly concat shuffled copies of the master images until we have at least neededPairs
+  while (pool.length < neededPairs) {
+    pool = pool.concat(shuffleArray(images));
+  }
+  const selectedImgs = pool.slice(0, neededPairs);
+
+  // create card list (pairs), then shuffle
+  cards = shuffleArray([...selectedImgs, ...selectedImgs]);
+
+  // sanity check: ensure cards length equals total
+  if (cards.length !== total) {
+    console.error("Card count mismatch", cards.length, total);
+    showPopup("Error: failed to create board. Please refresh.");
     return;
   }
 
-  // Randomly choose a different subset each time
-  const shuffled = [...images].sort(() => Math.random() - 0.5);
-  const selectedImgs = shuffled.slice(0, needed);
-  cards = [...selectedImgs, ...selectedImgs].sort(() => Math.random() - 0.5);
-
+  // build DOM cards
   gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
-
   cards.forEach(src => {
     const card = document.createElement("div");
-    card.classList.add("card");
+    card.className = "card";
 
     const inner = document.createElement("div");
-    inner.classList.add("card-inner");
+    inner.className = "card-inner";
 
     const front = document.createElement("div");
-    front.classList.add("card-front");
+    front.className = "card-front";
 
     const back = document.createElement("div");
-    back.classList.add("card-back");
+    back.className = "card-back";
     const img = document.createElement("img");
     img.src = src;
+    img.alt = "card";
     back.appendChild(img);
 
     inner.appendChild(front);
@@ -98,32 +138,54 @@ function startGame() {
     gameBoard.appendChild(card);
   });
 
+  // start timer AFTER board creation
+  gameStarted = true;
+  timerDisplay.textContent = `Time: ${timeLeft}s`;
   timer = setInterval(() => {
     timeLeft--;
     timerDisplay.textContent = `Time: ${timeLeft}s`;
     if (timeLeft <= 0) {
       clearInterval(timer);
-      showPopup("⏰ Time’s up! You lose!");
+      // end game (lose)
+      showPopup("⏰ Time’s up! You Lose.");
+      gameStarted = false;
     }
   }, 1000);
 }
 
+/* ----------------- card logic ----------------- */
+
 function flip(card) {
-  if (card.classList.contains("flipped") || flipped.length === 2) return;
+  if (!gameStarted) return; // don't allow flips before the game truly started
+  if (lockBoard) return;
+  if (card.classList.contains("flipped") || card.classList.contains("matched")) return;
+
   card.classList.add("flipped");
   flipped.push(card);
-  if (flipped.length === 2) checkMatch();
+
+  if (flipped.length === 2) {
+    lockBoard = true;            // prevent extra clicks while checking
+    checkMatch();
+  }
 }
 
 function checkMatch() {
   const [a, b] = flipped;
+  if (!a || !b) {
+    lockBoard = false;
+    return;
+  }
+
   const imgA = a.querySelector(".card-back img").src;
   const imgB = b.querySelector(".card-back img").src;
 
+  // wait for flip animation to finish (600ms in CSS)
   setTimeout(() => {
     if (imgA === imgB) {
+      // mark matched, then vanish after a short delay
       a.classList.add("matched");
       b.classList.add("matched");
+
       setTimeout(() => {
         a.style.visibility = "hidden";
         b.style.visibility = "hidden";
@@ -131,42 +193,27 @@ function checkMatch() {
 
       matched += 2;
       flipped = [];
+      lockBoard = false;
 
-      if (matched === cards.length) {
+      // only declare win if the game actually started and there are cards
+      if (gameStarted && cards.length > 0 && matched === cards.length) {
         clearInterval(timer);
-        setTimeout(() => showPopup("🎉 You Win! Great memory!"), 300);
+        gameStarted = false;
+        setTimeout(() => showPopup("🎉 You Win! Sentient brain activated!"), 300);
       }
     } else {
+      // not a match: flip back
       setTimeout(() => {
         a.classList.remove("flipped");
         b.classList.remove("flipped");
         flipped = [];
-      }, 200);
+        lockBoard = false;
+      }, 400);
     }
-  }, 600);
+  }, 600); // should match CSS flip duration
 }
 
-// 🎇 Nice popup for win/lose
-function showPopup(message) {
-  const popup = document.createElement("div");
-  popup.classList.add("popup");
-  popup.innerHTML = `
-    <div class="popup-content">
-      <h2>${message}</h2>
-      <button id="popupRestart">Restart</button>
-      <button id="popupBack">Back</button>
-    </div>`;
-  document.body.appendChild(popup);
-
-  document.getElementById("popupRestart").onclick = () => {
-    document.body.removeChild(popup);
-    startGame();
-  };
-  document.getElementById("popupBack").onclick = () => {
-    document.body.removeChild(popup);
-    goBack();
-  };
-}
+/* ----------------- UI helpers ----------------- */
 
 function goBack() {
   clearInterval(timer);
@@ -175,4 +222,14 @@ function goBack() {
   restartBtn.classList.add("hidden");
   backBtn.classList.add("hidden");
   countdownEl.classList.add("hidden");
+  gameBoard.innerHTML = "";
+  gameStarted = false;
+  flipped = [];
+  matched = 0;
+  timerDisplay.textContent = "";
+}
+
+function showPopup(message) {
+  popupMessage.textContent = message;
+  popup.classList.remove("hidden");
 }
