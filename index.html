@@ -1,38 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🧠 Sentient Memory Match</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🧠 Sentient Memory Match</h1>
+  <header>
+    <h1>🧠 Sentient Memory Match</h1>
+  </header>
 
-  <!-- Stats -->
-  <div class="stats">
-    <span id="moves">Moves: 0</span>
-    <span id="timer">Time: 0s</span>
-  </div>
+  <!-- Introduction Section -->
+  <section id="intro">
+    <p>
+      Welcome to <strong>Sentient Memory Match</strong>!  
+      Test your memory by matching pairs of cards before time runs out.  
+      Choose a difficulty mode to begin your challenge.
+    </p>
+    <button id="startIntroBtn">Select Difficulty</button>
+  </section>
 
-  <!-- Mode Selection -->
-  <div class="mode-select" id="modeSelect">
-    <button onclick="selectMode(4)">Easy (4×4)</button>
-    <button onclick="selectMode(6)">Normal (6×6)</button>
-    <button onclick="selectMode(8)">Hard (8×8)</button>
-    <button onclick="selectMode(10)">Extreme (10×10)</button>
-  </div>
+  <!-- Mode Selection Section -->
+  <section id="modeSelection" class="hidden">
+    <h2>Select Difficulty</h2>
+    <div class="mode-select">
+      <button onclick="selectMode(4)">Easy (4×4)</button>
+      <button onclick="selectMode(6)">Normal (6×6)</button>
+      <button onclick="selectMode(8)">Hard (8×8)</button>
+      <button onclick="selectMode(10)">Extreme (10×10)</button>
+    </div>
+    <button id="playBtn" class="hidden">Play</button>
+  </section>
 
-  <!-- Countdown -->
-  <div id="countdown"></div>
+  <!-- Countdown Section -->
+  <section id="countdownSection" class="hidden">
+    <h2 id="countdown">3</h2>
+  </section>
 
-  <!-- Game Board Wrapper -->
-  <div id="game" class="hidden">
+  <!-- Game Section -->
+  <section id="gameSection" class="hidden">
+    <div class="stats">
+      <span id="moves">Moves: 0</span>
+      <span id="timer">Time: 0s</span>
+    </div>
+
     <div class="board-wrapper">
       <div id="game-board" class="board"></div>
-      <button id="restart" onclick="restartGame()">Restart</button>
+      <button id="restart" class="hidden">Restart</button>
     </div>
-  </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
