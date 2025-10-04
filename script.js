@@ -75,7 +75,6 @@ function startCountdown() {
 }
 
 function startGame() {
-  // clear previous timer and state
   clearInterval(timer);
   gameBoard.innerHTML = "";
   flipped = [];
@@ -93,25 +92,26 @@ function startGame() {
   const total = gridSize * gridSize;
   const neededPairs = total / 2;
 
-  // create a shuffled list of images for this game, cycling if necessary
-  let pool = [];
-  // We'll repeatedly concat shuffled copies of the master images until we have at least neededPairs
-  while (pool.length < neededPairs) {
-    pool = pool.concat(shuffleArray(images));
+  // if you have 30 images, ensure at least 15 pairs for 10x10
+  let selectedImgs = shuffleArray(images).slice(0, neededPairs);
+  if (selectedImgs.length * 2 < total) {
+    // duplicate pool until enough
+    while (selectedImgs.length * 2 < total) {
+      selectedImgs = selectedImgs.concat(shuffleArray(images).slice(0, neededPairs));
+    }
   }
-  const selectedImgs = pool.slice(0, neededPairs);
 
-  // create card list (pairs), then shuffle
-  cards = shuffleArray([...selectedImgs, ...selectedImgs]);
+  // build the card list
+  cards = shuffleArray([...selectedImgs, ...selectedImgs]).slice(0, total);
 
-  // sanity check: ensure cards length equals total
-  if (cards.length !== total) {
-    console.error("Card count mismatch", cards.length, total);
-    showPopup("Error: failed to create board. Please refresh.");
+  // if still empty → abort (fixes instant win)
+  if (!cards || cards.length === 0) {
+    console.error("⚠️ No cards generated — check your images folder path!");
+    showPopup("Error: No images found in /images folder.");
     return;
   }
 
-  // build DOM cards
+  // build grid
   gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
   cards.forEach(src => {
     const card = document.createElement("div");
@@ -138,20 +138,24 @@ function startGame() {
     gameBoard.appendChild(card);
   });
 
-  // start timer AFTER board creation
+  if (gameBoard.children.length === 0) {
+    console.error("⚠️ No cards appended to board");
+    showPopup("Error: No cards created — check image paths.");
+    return;
+  }
+
   gameStarted = true;
-  timerDisplay.textContent = `Time: ${timeLeft}s`;
   timer = setInterval(() => {
     timeLeft--;
     timerDisplay.textContent = `Time: ${timeLeft}s`;
     if (timeLeft <= 0) {
       clearInterval(timer);
-      // end game (lose)
       showPopup("⏰ Time’s up! You Lose.");
       gameStarted = false;
     }
   }, 1000);
 }
+
 
 /* ----------------- card logic ----------------- */
 
