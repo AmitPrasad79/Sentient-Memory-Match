@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🧠 Sentient Memory Match</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="game-container">
-    <h1>🧠 Sentient Memory Match</h1>
-    <p class="intro">
-      Welcome to <b>Sentient Memory Match!</b> Test your mind by matching pairs of images before time runs out.<br>
-      Choose a difficulty level below to begin your challenge.
+  <div class="container">
+    <h1 class="title">🧠 Sentient Memory Match</h1>
+    <p class="desc">
+      Test your sentient brain! Match pairs before time runs out.<br>
+      Choose your challenge and start.
     </p>
 
-    <div class="controls">
+    <div class="menu">
       <select id="difficulty">
         <option value="4">Easy (4x4)</option>
         <option value="6">Medium (6x6)</option>
         <option value="8">Hard (8x8)</option>
         <option value="10">Extreme (10x10)</option>
       </select>
-      <button id="playBtn">Play</button>
+      <button id="startBtn">Start</button>
     </div>
 
-    <div id="countdown" class="countdown"></div>
-    <div id="gameBoard" class="game-board"></div>
+    <div id="countdown" class="countdown hidden">3</div>
 
-    <div class="bottom-controls">
-      <button id="restartBtn" class="hidden">Restart</button>
-      <div id="timer" class="timer hidden">Time: 0s</div>
+    <div id="gameArea" class="game-area hidden">
+      <div id="timer" class="timer"></div>
+      <div id="gameBoard" class="game-board"></div>
+      <button id="restartBtn" class="hidden restart-btn">Restart</button>
     </div>
   </div>
 
