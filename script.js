@@ -11,7 +11,7 @@ let matchedPairs = 0;
 let totalPairs = 0;
 let gridSize;
 
-const images = Array.from({length: 30}, (_, i) => `images/img${i+1}.png`);
+const images = Array.from({length: 18}, (_, i) => `images/img${i+1}.png`);
 
 function startGame(mode) {
   modeSelection.style.display = "none";
@@ -133,11 +133,4 @@ function restartGame() {
   clearInterval(timer);
   clearInterval(countdown);
   startGame(gridSize === 4 ? 'easy' : gridSize === 6 ? 'medium' : gridSize === 8 ? 'hard' : 'extreme');
-}
-
-function backToMenu() {
-  clearInterval(timer);
-  clearInterval(countdown);
-  gameUI.style.display = "none";
-  modeSelection.style.display = "block";
 }
