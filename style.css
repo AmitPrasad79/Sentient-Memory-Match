@@ -235,3 +235,8 @@ button:hover {
   background: #ff00ff;
   transform: scale(1.05);
 }
+
+.hidden {
+  display: none !important;
+}
+
