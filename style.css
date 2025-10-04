@@ -138,7 +138,6 @@ button:hover {
   100% { opacity: 0; transform: scale(0); }
 }
 
-/* Restart + Back buttons */
 .controls {
   display: flex;
   justify-content: center;
@@ -151,7 +150,6 @@ button:hover {
   margin-top: 10px;
 }
 
-/* Popup modal */
 .popup {
   position: fixed;
   top: 0; left: 0;
@@ -238,5 +236,11 @@ button:hover {
 
 .hidden {
   display: none !important;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
