@@ -1,246 +1,102 @@
-body {
-  background-color: #090013;
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+/* ✅ Responsive Game Board Grid */
+.game-board[data-size="4"] {
+  grid-template-columns: repeat(4, minmax(60px, 1fr));
 }
 
-.container {
-  text-align: center;
-  background: rgba(20, 0, 30, 0.9);
-  border: 3px solid #ff00ff66;
-  border-radius: 20px;
-  padding: 30px 50px;
-  box-shadow: 0 0 40px #ff00ff66;
+.game-board[data-size="6"] {
+  grid-template-columns: repeat(6, minmax(45px, 1fr));
 }
 
-.title {
-  font-size: 2rem;
-  color: #ff66ff;
-  text-shadow: 0 0 20px #ff00ff;
+.game-board[data-size="8"] {
+  grid-template-columns: repeat(8, minmax(35px, 1fr));
 }
 
-.desc {
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: #ddd;
+.game-board[data-size="10"] {
+  grid-template-columns: repeat(10, minmax(28px, 1fr));
 }
 
-.menu {
-  margin-bottom: 20px;
-}
-
-select, button {
-  background: #ff33cc;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 5px;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  background: #ff00ff;
-  transform: scale(1.05);
-}
-
-.countdown {
-  font-size: 80px;
-  font-weight: bold;
-  color: #ff66ff;
-  text-shadow: 0 0 30px #ff00ff;
-  margin-top: 20px;
-}
-
-.hidden {
-  display: none;
-}
-
-.game-area {
-  margin-top: 20px;
-}
-
-.timer {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #ffccff;
-}
-
-.game-board {
-  display: grid;
-  justify-content: center;
-  gap: 10px;
-  background: rgba(40, 0, 60, 0.6);
-  border-radius: 20px;
-  padding: 15px;
-  border: 2px solid #ff00ff55;
-  box-shadow: 0 0 20px #ff00ff44;
-}
-
+/* ✅ Make sure cards always stay square */
 .card {
-  width: 70px;
-  height: 70px;
-  perspective: 800px;
-  cursor: pointer;
-}
-
-.card-inner {
-  position: relative;
+  aspect-ratio: 1 / 1;
   width: 100%;
-  height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
+  height: auto;
 }
 
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
+/* ✅ Mobile-Friendly Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 25px;
+    width: 90%;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .desc {
+    font-size: 0.9rem;
+  }
+
+  select,
+  button {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  .game-board {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .game-board[data-size="4"] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .game-board[data-size="6"] {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .game-board[data-size="8"] {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .game-board[data-size="10"] {
+    grid-template-columns: repeat(10, 1fr);
+  }
+
+  .card {
+    border-radius: 8px;
+    border-width: 1px;
+  }
+
+  .timer {
+    font-size: 14px;
+  }
 }
 
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid #ff00ff55;
-  box-shadow: 0 0 10px #ff00ff44;
-}
+/* ✅ Tiny Screens (Phones under 450px) */
+@media (max-width: 450px) {
+  .game-board[data-size="4"] {
+    grid-template-columns: repeat(4, minmax(45px, 1fr));
+  }
 
-.card-front {
-  background: #1a001f;
-}
+  .game-board[data-size="6"] {
+    grid-template-columns: repeat(6, minmax(32px, 1fr));
+  }
 
-.card-back {
-  transform: rotateY(180deg);
-}
+  .game-board[data-size="8"] {
+    grid-template-columns: repeat(8, minmax(24px, 1fr));
+  }
 
-.card-back img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-}
+  .game-board[data-size="10"] {
+    grid-template-columns: repeat(10, minmax(20px, 1fr));
+  }
 
-.card.matched {
-  animation: vanish 0.4s forwards ease-in-out;
-}
+  .title {
+    font-size: 1.3rem;
+  }
 
-@keyframes vanish {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0); }
+  .desc {
+    font-size: 0.8rem;
+  }
 }
-
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.restart-btn,
-.back-btn {
-  margin-top: 10px;
-}
-
-.popup {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-content {
-  background: rgba(30, 0, 40, 0.95);
-  padding: 30px 50px;
-  border-radius: 15px;
-  text-align: center;
-  border: 2px solid #ff00ff88;
-  box-shadow: 0 0 30px #ff00ff;
-}
-
-.popup-content h2 {
-  color: #ff66ff;
-  margin-bottom: 20px;
-  text-shadow: 0 0 15px #ff00ff;
-}
-
-.popup-content button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  background: #ff33cc;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 15px #ff00ff;
-}
-
-.popup-content button:hover {
-  background: #ff00ff;
-}
-
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(10, 0, 20, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-content {
-  background: #2a003a;
-  padding: 30px 50px;
-  border-radius: 20px;
-  border: 3px solid #ff00ff66;
-  box-shadow: 0 0 40px #ff00ff99;
-  text-align: center;
-}
-
-.popup-content h2 {
-  color: #ff66ff;
-  margin-bottom: 20px;
-}
-
-.popup-content button {
-  background: #ff33cc;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.popup-content button:hover {
-  background: #ff00ff;
-  transform: scale(1.05);
-}
-
-.hidden {
-  display: none !important;
-}
-
-* {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  user-select: none;
-}
-
