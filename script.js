@@ -81,6 +81,9 @@ function startGame() {
   restartBtn.classList.remove("hidden");
   backBtn.classList.remove("hidden");
 
+  // Let CSS know the current grid size
+  gameBoard.dataset.size = gridSize;
+
   const total = gridSize * gridSize;
   const neededPairs = total / 2;
 
@@ -101,8 +104,7 @@ function startGame() {
     return;
   }
 
-  // Build board
-  gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
+  // Build board (responsive — CSS handles card sizes)
   cards.forEach(src => {
     const card = document.createElement("div");
     card.className = "card";
@@ -123,7 +125,13 @@ function startGame() {
     inner.appendChild(back);
     card.appendChild(inner);
 
+    // Support for both touch and click
     card.addEventListener("click", () => flip(card));
+    card.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      flip(card);
+    });
+
     gameBoard.appendChild(card);
   });
 
