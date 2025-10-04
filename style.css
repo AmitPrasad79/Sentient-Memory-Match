@@ -1,109 +1,113 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
 body {
-  background: radial-gradient(circle at center, #0a0f24, #000);
+  background: #0d0d1a;
   color: #fff;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
 }
 
-.game-container {
+.hidden {
+  display: none;
+}
+
+/* Start Screen */
+#start-screen {
   text-align: center;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 20px 40px;
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
+}
+#start-screen h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+#start-screen .buttons button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: cyan;
+  color: black;
+  transition: transform 0.2s;
+}
+#start-screen .buttons button:hover {
+  transform: scale(1.1);
 }
 
-h1 {
-  font-size: 2em;
-  margin-bottom: 10px;
-  text-shadow: 0 0 10px #00ffff;
+/* Countdown */
+#countdown {
+  font-size: 5rem;
+  color: cyan;
+  text-shadow: 0 0 20px cyan;
+  position: absolute;
+  top: 40%;
+  display: none;
 }
 
-.stats {
+/* Game */
+header {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 15px;
-  font-weight: 600;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 700px;
+  margin: 20px auto;
 }
 
-.card-inner {
-  width: 100%;
-  height: 100%;
+.board {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Card */
+.card {
+  width: 80px;
+  height: 80px;
+  background: #1a1a33;
+  border-radius: 10px;
+  cursor: pointer;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
-  cursor: pointer;
+  transition: transform 0.5s;
 }
-
-.card.flip .card-inner {
+.card.flipped {
   transform: rotateY(180deg);
 }
+.card.matched {
+  animation: vanish 0.6s forwards;
+}
+@keyframes vanish {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.1); }
+}
 
-.card-front, .card-back {
-  position: absolute;
+.card img {
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   border-radius: 10px;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-
-.card-front {
-  background: #112240;
+.card .front {
+  background: #2a2a4a;
 }
-
-.card-back {
-  background: #00ffff33;
+.card .back {
   transform: rotateY(180deg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-button {
+#restart {
   margin-top: 20px;
   padding: 10px 20px;
-  border: none;
-  background: #00ffff;
-  color: #000;
+  font-size: 1.2rem;
   border-radius: 10px;
-  font-weight: 600;
+  border: none;
+  background: cyan;
+  color: black;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
-
-button:hover {
-  background: #00cccc;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(6, 90px); /* 6 columns */
-  grid-gap: 12px;
-  justify-content: center;
-}
-
-.card {
-  width: 90px;
-  height: 90px;
-  perspective: 1000px;
-}
-
-.card-back img {
-  width: 90%;
-  height: 90%;
-  object-fit: contain;
-  border-radius: 8px;
-}
-
