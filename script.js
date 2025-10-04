@@ -9,8 +9,19 @@ let timerInterval;
 let firstCard, secondCard;
 let lockBoard = false;
 
-const icons = ['🧠', '🤖', '⚡', '🌌', '🔮', '💫', '🧬', '🪐'];
-let cardsArray = [...icons, ...icons];
+// Add your own image names here
+const images = [
+  'brain.png', 
+  'planet.png', 
+  'lightning.png', 
+  'robot.png', 
+  'dna.png', 
+  'star.png', 
+  'galaxy.png', 
+  'crystal.png'
+];
+
+let cardsArray = [...images, ...images];
 
 function shuffle(array) {
   return array.sort(() => 0.5 - Math.random());
@@ -25,12 +36,16 @@ function startGame() {
   clearInterval(timerInterval);
 
   cardsArray = shuffle(cardsArray);
-  cardsArray.forEach(icon => {
+  cardsArray.forEach(img => {
     const card = document.createElement('div');
     card.classList.add('card');
     card.innerHTML = `
-      <div class="front">${icon}</div>
-      <div class="back"></div>
+      <div class="card-inner">
+        <div class="card-front"></div>
+        <div class="card-back">
+          <img src="images/${img}" alt="icon">
+        </div>
+      </div>
     `;
     card.addEventListener('click', flipCard);
     grid.appendChild(card);
@@ -44,7 +59,7 @@ function startGame() {
 
 function flipCard() {
   if (lockBoard) return;
-  if (this === firstCard) return;
+  if (this.classList.contains('flip')) return;
 
   this.classList.add('flip');
 
@@ -62,8 +77,8 @@ function flipCard() {
 
 function checkForMatch() {
   let isMatch =
-    firstCard.querySelector('.front').textContent ===
-    secondCard.querySelector('.front').textContent;
+    firstCard.querySelector('img').src ===
+    secondCard.querySelector('img').src;
 
   isMatch ? disableCards() : unflipCards();
 }
