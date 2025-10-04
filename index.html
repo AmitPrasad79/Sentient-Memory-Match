@@ -23,19 +23,21 @@
   <div id="countdown"></div>
 
   <!-- Game Container -->
-  <div id="game" class="hidden">
-    <header>
-      <h1>🧠 Sentient Memory Match</h1>
-      <div class="stats">
-        <span id="moves">Moves: 0</span>
-        <span id="timer">Time: 0s</span>
-      </div>
-    </header>
+<div id="game" class="hidden">
+  <header>
+    <h1>🧠 Sentient Memory Match</h1>
+    <div class="stats">
+      <span id="moves">Moves: 0</span>
+      <span id="timer">Time: 0s</span>
+    </div>
+  </header>
 
+  <div class="board-wrapper">
     <div id="game-board" class="board"></div>
-
     <button id="restart" onclick="restartGame()">Restart</button>
   </div>
+</div>
+
 
   <script src="script.js"></script>
 </body>
