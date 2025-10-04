@@ -20,7 +20,7 @@ h1 {
 }
 
 #mode-selection button,
-.controls button {
+#restart-button {
   margin: 5px;
   padding: 10px 20px;
   border: none;
@@ -33,7 +33,7 @@ h1 {
 }
 
 #mode-selection button:hover,
-.controls button:hover {
+#restart-button:hover {
   background: #ff33cc;
 }
 
@@ -80,11 +80,4 @@ h1 {
   transform: rotateY(180deg);
   background-size: cover;
   background-position: center;
-}
-
-.controls {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
 }
