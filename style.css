@@ -1,143 +1,90 @@
 body {
-  background-color: #090013;
+  background: #0a0014;
   color: #fff;
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
-
-.container {
+  font-family: Arial, sans-serif;
   text-align: center;
-  background: rgba(20, 0, 30, 0.9);
-  border: 3px solid #ff00ff66;
-  border-radius: 20px;
-  padding: 30px 50px;
-  box-shadow: 0 0 40px #ff00ff66;
 }
 
-.title {
-  font-size: 2rem;
+.game-container {
+  margin: 40px auto;
+  padding: 20px;
+  border: 2px solid #ff00ff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #ff00ff;
+  width: fit-content;
+}
+
+h1 {
   color: #ff66ff;
-  text-shadow: 0 0 20px #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
 }
 
-.desc {
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: #ddd;
-}
-
-.menu {
-  margin-bottom: 20px;
-}
-
-select, button {
-  background: #ff33cc;
-  color: white;
+#mode-selection button,
+.controls button {
+  margin: 5px;
+  padding: 10px 20px;
   border: none;
   border-radius: 8px;
-  padding: 8px 16px;
-  font-weight: bold;
   cursor: pointer;
-  margin: 5px;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  background: #ff00ff;
-  transform: scale(1.05);
-}
-
-.countdown {
-  font-size: 80px;
+  background: #ff0099;
+  color: white;
   font-weight: bold;
-  color: #ff66ff;
-  text-shadow: 0 0 30px #ff00ff;
-  margin-top: 20px;
+  transition: 0.3s;
 }
 
-.hidden {
-  display: none;
+#mode-selection button:hover,
+.controls button:hover {
+  background: #ff33cc;
 }
 
-.game-area {
-  margin-top: 20px;
-}
-
-.timer {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #ffccff;
-}
-
-.game-board {
+#game-board {
   display: grid;
-  justify-content: center;
   gap: 10px;
-  background: rgba(40, 0, 60, 0.6);
-  border-radius: 20px;
+  margin: 20px auto;
   padding: 15px;
-  border: 2px solid #ff00ff55;
-  box-shadow: 0 0 20px #ff00ff44;
+  border: 2px solid #ff00ff;
+  border-radius: 15px;
+  box-shadow: 0 0 15px #ff00ff;
+  background: rgba(20, 0, 30, 0.8);
 }
 
 .card {
   width: 70px;
   height: 70px;
-  perspective: 800px;
-  cursor: pointer;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s;
+  background: #220033;
+  border-radius: 10px;
   transform-style: preserve-3d;
+  transition: transform 0.6s;
+  cursor: pointer;
+  position: relative;
 }
 
-.card.flipped .card-inner {
+.card.flip {
   transform: rotateY(180deg);
 }
 
-.card-front, .card-back {
+.card .front,
+.card .back {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
   border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid #ff00ff55;
-  box-shadow: 0 0 10px #ff00ff44;
 }
 
-.card-front {
-  background: #1a001f;
+.card .front {
+  background: #ff0099;
 }
 
-.card-back {
+.card .back {
   transform: rotateY(180deg);
+  background-size: cover;
+  background-position: center;
 }
 
-.card-back img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.card.matched {
-  animation: vanish 0.4s forwards ease-in-out;
-}
-
-@keyframes vanish {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0); }
-}
-
-.restart-btn {
+.controls {
   margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
