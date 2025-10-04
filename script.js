@@ -1,4 +1,4 @@
-// ✅ script.js (fixed version with image path validation)
+// script.js
 
 const startBtn = document.getElementById("startBtn");
 const restartBtn = document.getElementById("restartBtn");
@@ -22,9 +22,11 @@ let timer = null;
 let lockBoard = false;
 let gameStarted = false;
 
+// 👇 Adjust this if you have 30 images named images/img1.png → images/img30.png
 const images = Array.from({ length: 30 }, (_, i) => `images/img${i + 1}.png`);
 const times = { 4: 120, 6: 180, 8: 240, 10: 300 };
 
+// Event Listeners
 startBtn.addEventListener("click", startCountdown);
 restartBtn.addEventListener("click", startCountdown);
 backBtn.addEventListener("click", goBack);
@@ -33,7 +35,7 @@ popupClose.addEventListener("click", () => {
   goBack();
 });
 
-// shuffle helper
+// Shuffle helper
 function shuffleArray(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -43,35 +45,18 @@ function shuffleArray(arr) {
   return a;
 }
 
-// preload images (returns valid URLs only)
-async function validateImages(list) {
-  const valid = [];
-  for (const src of list) {
-    try {
-      await new Promise((res, rej) => {
-        const img = new Image();
-        img.onload = () => res(true);
-        img.onerror = rej;
-        img.src = src;
-      });
-      valid.push(src);
-    } catch {
-      console.warn(`⚠️ Missing image: ${src}`);
-    }
-  }
-  return valid;
-}
-
+// Countdown before game starts
 function startCountdown() {
   document.querySelector(".menu").classList.add("hidden");
   countdownEl.classList.remove("hidden");
   gameArea.classList.add("hidden");
 
+  countdownEl.textContent = "3";
   let count = 3;
-  countdownEl.textContent = count;
+
   const interval = setInterval(() => {
     count--;
-    if (count > 0) countdownEl.textContent = count;
+    if (count > 0) countdownEl.textContent = String(count);
     else if (count === 0) countdownEl.textContent = "Go!";
     else {
       clearInterval(interval);
@@ -82,7 +67,7 @@ function startCountdown() {
   }, 800);
 }
 
-async function startGame() {
+function startGame() {
   clearInterval(timer);
   gameBoard.innerHTML = "";
   flipped = [];
@@ -93,31 +78,37 @@ async function startGame() {
   gridSize = parseInt(difficultySelect.value) || 4;
   timeLeft = times[gridSize] || 120;
   timerDisplay.textContent = `Time: ${timeLeft}s`;
+
   restartBtn.classList.remove("hidden");
   backBtn.classList.remove("hidden");
 
   const total = gridSize * gridSize;
-  const pairsNeeded = total / 2;
+  const neededPairs = total / 2;
 
-  // get only valid images
-  const validImgs = await validateImages(images);
-  if (validImgs.length === 0) {
-    showPopup("⚠️ No valid images found in /images folder.");
+  // pick random unique images
+  let selectedImgs = shuffleArray(images).slice(0, neededPairs);
+
+  // ✅ Safety check — no images loaded
+  if (selectedImgs.length === 0) {
+    showPopup("⚠️ No images found. Check your /images folder path!");
+    console.error("No images loaded from:", images);
     return;
   }
 
-  let selected = shuffleArray(validImgs).slice(0, pairsNeeded);
-  cards = shuffleArray([...selected, ...selected]);
+  cards = shuffleArray([...selectedImgs, ...selectedImgs]).slice(0, total);
 
   if (cards.length === 0) {
-    showPopup("Error: No cards generated!");
+    showPopup("⚠️ Failed to generate cards — check your image names!");
     return;
   }
 
+  // Create grid of cards
   gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
+
   cards.forEach(src => {
     const card = document.createElement("div");
     card.className = "card";
+
     const inner = document.createElement("div");
     inner.className = "card-inner";
 
@@ -126,16 +117,31 @@ async function startGame() {
 
     const back = document.createElement("div");
     back.className = "card-back";
+
     const img = document.createElement("img");
     img.src = src;
-    back.appendChild(img);
+    img.alt = "card";
+    img.onerror = () => {
+      console.error("❌ Image not found:", img.src);
+      img.style.opacity = "0.3";
+    };
 
+    back.appendChild(img);
     inner.appendChild(front);
     inner.appendChild(back);
     card.appendChild(inner);
+
     card.addEventListener("click", () => flip(card));
     gameBoard.appendChild(card);
   });
+
+  // Verify that images actually loaded
+  const allImages = document.querySelectorAll(".card-back img");
+  if (allImages.length === 0) {
+    console.error("⚠️ No <img> elements found inside .card-back!");
+    showPopup("⚠️ No images found. Make sure /images folder is correct.");
+    return;
+  }
 
   gameStarted = true;
   timer = setInterval(() => {
@@ -143,12 +149,13 @@ async function startGame() {
     timerDisplay.textContent = `Time: ${timeLeft}s`;
     if (timeLeft <= 0) {
       clearInterval(timer);
-      showPopup("⏰ Time’s up! Try again.");
+      showPopup("⏰ Time’s up! You Lose.");
       gameStarted = false;
     }
   }, 1000);
 }
 
+// Flip logic
 function flip(card) {
   if (!gameStarted || lockBoard) return;
   if (card.classList.contains("flipped") || card.classList.contains("matched")) return;
@@ -162,12 +169,14 @@ function flip(card) {
   }
 }
 
+// Check if 2 flipped cards match
 function checkMatch() {
   const [a, b] = flipped;
   if (!a || !b) {
     lockBoard = false;
     return;
   }
+
   const imgA = a.querySelector(".card-back img").src;
   const imgB = b.querySelector(".card-back img").src;
 
@@ -175,10 +184,12 @@ function checkMatch() {
     if (imgA === imgB) {
       a.classList.add("matched");
       b.classList.add("matched");
+
       setTimeout(() => {
         a.style.visibility = "hidden";
         b.style.visibility = "hidden";
       }, 400);
+
       matched += 2;
       flipped = [];
       lockBoard = false;
@@ -199,6 +210,7 @@ function checkMatch() {
   }, 600);
 }
 
+// UI
 function goBack() {
   clearInterval(timer);
   gameArea.classList.add("hidden");
