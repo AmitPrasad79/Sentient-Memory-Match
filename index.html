@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sentient Memory Match 🧠</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="game-container">
+  <!-- Start Screen -->
+  <div id="start-screen">
     <h1>🧠 Sentient Memory Match</h1>
-    <div class="stats">
-      <p>Moves: <span id="moves">0</span></p>
-      <p>Time: <span id="timer">0</span>s</p>
+    <p>Select Difficulty:</p>
+    <div class="buttons">
+      <button onclick="startGame(4)">Easy (4x4)</button>
+      <button onclick="startGame(6)">Medium (6x6)</button>
+      <button onclick="startGame(8)">Hard (8x8)</button>
+      <button onclick="startGame(10)">Extreme (10x10)</button>
     </div>
+  </div>
 
-    <div class="grid" id="gameGrid"></div>
+  <!-- Countdown -->
+  <div id="countdown"></div>
 
-    <button id="restartBtn">Restart</button>
+  <!-- Game Container -->
+  <div id="game" class="hidden">
+    <header>
+      <h1>🧠 Sentient Memory Match</h1>
+      <div class="stats">
+        <span id="moves">Moves: 0</span>
+        <span id="timer">Time: 0s</span>
+      </div>
+    </header>
+
+    <div id="game-board" class="board"></div>
+
+    <button id="restart" onclick="restartGame()">Restart</button>
   </div>
 
   <script src="script.js"></script>
