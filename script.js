@@ -22,7 +22,7 @@ let timer = null;
 let lockBoard = false;
 let gameStarted = false;
 
-// ==== IMAGES (30 total) ====
+// ==== IMAGES ====
 const images = Array.from({ length: 30 }, (_, i) => `images/img${i + 1}.png`);
 const times = { 4: 120, 6: 180, 8: 240, 10: 300 };
 
@@ -35,7 +35,7 @@ popupClose.addEventListener("click", () => {
   goBack();
 });
 
-// ==== SHUFFLE HELPER ====
+// ==== SHUFFLE ====
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -84,17 +84,25 @@ function startGame() {
   const total = gridSize * gridSize;
   const neededPairs = total / 2;
 
-  // Pick unique images for this round
-  let selectedImgs = shuffle(images).slice(0, neededPairs);
+  // Pick enough images for pairs — reuse if needed
+  let selectedImgs = [];
+  while (selectedImgs.length < neededPairs) {
+    const shuffled = shuffle(images);
+    selectedImgs = selectedImgs.concat(shuffled);
+  }
+  selectedImgs = selectedImgs.slice(0, neededPairs);
+
+  // Make pairs and shuffle again
   cards = shuffle([...selectedImgs, ...selectedImgs]);
 
+  // Safety check
   if (cards.length === 0) {
     showPopup("⚠️ No images found in /images folder!");
     return;
   }
 
+  // Build board
   gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
-
   cards.forEach(src => {
     const card = document.createElement("div");
     card.className = "card";
@@ -119,7 +127,7 @@ function startGame() {
     gameBoard.appendChild(card);
   });
 
-  // Timer start
+  // Timer
   gameStarted = true;
   timer = setInterval(() => {
     timeLeft--;
@@ -158,7 +166,6 @@ function checkMatch() {
   const imgB = b.querySelector(".card-back img")?.src;
 
   if (!imgA || !imgB) {
-    console.error("⚠️ Image missing on one of the cards");
     lockBoard = false;
     flipped = [];
     return;
