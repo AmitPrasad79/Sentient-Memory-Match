@@ -59,4 +59,3 @@ Every round is short, tense, and exciting.
 - 🖱️ **Mouse / Touch** → Tap/Click to flip cards.  
 - ⌨️ **Keyboard optional** (for menu navigation only).  
 
----
