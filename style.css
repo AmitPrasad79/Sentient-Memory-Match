@@ -14,7 +14,6 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  overflow: hidden;
 }
 
 .game-container {
@@ -49,20 +48,23 @@ h1 {
 .card {
   width: 100px;
   height: 100px;
-  background: #0d1b2a;
-  border-radius: 10px;
-  cursor: pointer;
-  transform-style: preserve-3d;
-  transition: transform 0.5s;
-  position: relative;
-  box-shadow: 0 0 10px rgba(0,255,255,0.2);
+  perspective: 1000px;
 }
 
-.card.flip {
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  cursor: pointer;
+}
+
+.card.flip .card-inner {
   transform: rotateY(180deg);
 }
 
-.card .front, .card .back {
+.card-front, .card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -70,17 +72,22 @@ h1 {
   border-radius: 10px;
 }
 
-.card .front {
+.card-front {
+  background: #112240;
+}
+
+.card-back {
   background: #00ffff33;
+  transform: rotateY(180deg);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2em;
 }
 
-.card .back {
-  background: #112240;
-  transform: rotateY(180deg);
+.card-back img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
 
 button {
