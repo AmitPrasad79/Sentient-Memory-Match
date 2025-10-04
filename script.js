@@ -1,66 +1,89 @@
-const grid = document.getElementById('gameGrid');
-const restartBtn = document.getElementById('restartBtn');
-const movesDisplay = document.getElementById('moves');
-const timerDisplay = document.getElementById('timer');
-
+let boardSize;
 let moves = 0;
-let timer = 0;
-let timerInterval;
 let firstCard, secondCard;
 let lockBoard = false;
+let matchedPairs = 0;
+let totalPairs;
+let timerInterval;
+let timeLeft;
 
-// ✅ Change board size here (4, 6, 8 etc.)
-const boardSize = 6; 
-const totalCards = boardSize * boardSize; 
-const uniqueImages = totalCards / 2; 
+const gameBoard = document.getElementById("game-board");
+const movesDisplay = document.getElementById("moves");
+const timerDisplay = document.getElementById("timer");
+const countdownEl = document.getElementById("countdown");
 
-// Generate image list
-const images = [];
-for (let i = 1; i <= uniqueImages; i++) {
-  images.push(`img${i}.png`);
+const difficulties = {
+  4: {time: 120}, // 2 mins
+  6: {time: 240}, // 4 mins
+  8: {time: 360}, // 6 mins
+  10: {time: 600} // 10 mins
+};
+
+// Use 18 images, cycle them if needed
+const images = Array.from({ length: 18 }, (_, i) => `images/img${i+1}.png`);
+
+function startGame(size) {
+  boardSize = size;
+  totalPairs = (size * size) / 2;
+  document.getElementById("start-screen").classList.add("hidden");
+  countdown(3, () => {
+    document.getElementById("game").classList.remove("hidden");
+    setupBoard();
+    startTimer();
+  });
 }
 
-let cardsArray = [...images, ...images]; // duplicate for pairs
-
-function shuffle(array) {
-  return array.sort(() => 0.5 - Math.random());
+function countdown(num, callback) {
+  countdownEl.style.display = "block";
+  let count = num;
+  countdownEl.textContent = count;
+  const interval = setInterval(() => {
+    count--;
+    if (count > 0) {
+      countdownEl.textContent = count;
+    } else {
+      countdownEl.textContent = "Start!";
+      setTimeout(() => {
+        countdownEl.style.display = "none";
+        callback();
+      }, 1000);
+      clearInterval(interval);
+    }
+  }, 1000);
 }
 
-function startGame() {
-  grid.innerHTML = '';
-  moves = 0;
-  timer = 0;
-  movesDisplay.textContent = moves;
-  timerDisplay.textContent = timer;
-  clearInterval(timerInterval);
+function setupBoard() {
+  gameBoard.innerHTML = "";
+  gameBoard.style.gridTemplateColumns = `repeat(${boardSize}, 80px)`;
+  
+  let neededImages = [];
+  for (let i = 0; i < totalPairs; i++) {
+    neededImages.push(images[i % images.length]);
+  }
+  let cardsArray = [...neededImages, ...neededImages];
+  cardsArray.sort(() => Math.random() - 0.5);
 
-  cardsArray = shuffle(cardsArray);
   cardsArray.forEach(img => {
-    const card = document.createElement('div');
-    card.classList.add('card');
+    const card = document.createElement("div");
+    card.classList.add("card");
     card.innerHTML = `
-      <div class="card-inner">
-        <div class="card-front"></div>
-        <div class="card-back">
-          <img src="images/${img}" alt="icon">
-        </div>
-      </div>
+      <img src="${img}" class="back" />
+      <div class="front"></div>
     `;
-    card.addEventListener('click', flipCard);
-    grid.appendChild(card);
+    card.addEventListener("click", flipCard);
+    gameBoard.appendChild(card);
   });
 
-  timerInterval = setInterval(() => {
-    timer++;
-    timerDisplay.textContent = timer;
-  }, 1000);
+  moves = 0;
+  matchedPairs = 0;
+  movesDisplay.textContent = `Moves: 0`;
 }
 
 function flipCard() {
   if (lockBoard) return;
-  if (this.classList.contains('flip')) return;
+  if (this === firstCard) return;
 
-  this.classList.add('flip');
+  this.classList.add("flipped");
 
   if (!firstCard) {
     firstCard = this;
@@ -68,44 +91,57 @@ function flipCard() {
   }
 
   secondCard = this;
-  moves++;
-  movesDisplay.textContent = moves;
-
-  checkForMatch();
-}
-
-function checkForMatch() {
-  let isMatch =
-    firstCard.querySelector('img').src ===
-    secondCard.querySelector('img').src;
-
-  isMatch ? disableCards() : unflipCards();
-}
-
-function disableCards() {
-  firstCard.removeEventListener('click', flipCard);
-  secondCard.removeEventListener('click', flipCard);
-
-  resetBoard();
-
-  if (document.querySelectorAll('.card:not(.flip)').length === 0) {
-    clearInterval(timerInterval);
-    setTimeout(() => alert(`You won in ${moves} moves and ${timer}s! 🎉`), 500);
-  }
-}
-
-function unflipCards() {
   lockBoard = true;
-  setTimeout(() => {
-    firstCard.classList.remove('flip');
-    secondCard.classList.remove('flip');
+  moves++;
+  movesDisplay.textContent = `Moves: ${moves}`;
+
+  checkMatch();
+}
+
+function checkMatch() {
+  const isMatch = firstCard.innerHTML === secondCard.innerHTML;
+  if (isMatch) {
+    firstCard.classList.add("matched");
+    secondCard.classList.add("matched");
+    matchedPairs++;
+    if (matchedPairs === totalPairs) {
+      setTimeout(() => alert("🎉 You Win!"), 500);
+    }
     resetBoard();
-  }, 1000);
+  } else {
+    setTimeout(() => {
+      firstCard.classList.remove("flipped");
+      secondCard.classList.remove("flipped");
+      resetBoard();
+    }, 1000);
+  }
 }
 
 function resetBoard() {
   [firstCard, secondCard, lockBoard] = [null, null, false];
 }
 
-restartBtn.addEventListener('click', startGame);
-startGame();
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = difficulties[boardSize].time;
+  updateTimer();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimer();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      alert("⏰ Time’s up! Try again.");
+      restartGame();
+    }
+  }, 1000);
+}
+
+function updateTimer() {
+  timerDisplay.textContent = `Time: ${timeLeft}s`;
+}
+
+function restartGame() {
+  document.getElementById("game").classList.add("hidden");
+  document.getElementById("start-screen").classList.remove("hidden");
+  clearInterval(timerInterval);
+}
