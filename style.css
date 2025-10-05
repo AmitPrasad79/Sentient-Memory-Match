@@ -1,14 +1,25 @@
 body {
-  background-color: #090013;
-  color: #fff;
+  margin: 0;
   font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  background: #090013;
+  color: #fff;
 }
 
+/* Background canvas behind everything */
+#bgCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  background: #090013;
+}
+
+/* Centered game container */
 .container {
   text-align: center;
   background: rgba(20, 0, 30, 0.9);
@@ -16,6 +27,8 @@ body {
   border-radius: 20px;
   padding: 30px 50px;
   box-shadow: 0 0 40px #ff00ff66;
+  max-width: 600px;
+  width: 90%;
 }
 
 .title {
@@ -35,19 +48,19 @@ body {
 }
 
 select, button {
-  background: #ff33cc;
+  background: linear-gradient(45deg, #ff33cc, #cc00ff);
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 10px 18px;
   font-weight: bold;
   cursor: pointer;
   margin: 5px;
   transition: all 0.3s ease;
 }
 
-button:hover {
-  background: #ff00ff;
+button:hover, select:hover {
+  background: linear-gradient(45deg, #ff00ff, #ff33cc);
   transform: scale(1.05);
 }
 
@@ -59,13 +72,9 @@ button:hover {
   margin-top: 20px;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
-.game-area {
-  margin-top: 20px;
-}
+.game-area { margin-top: 20px; }
 
 .timer {
   font-size: 18px;
@@ -99,14 +108,11 @@ button:hover {
   transform-style: preserve-3d;
 }
 
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
+.card.flipped .card-inner { transform: rotateY(180deg); }
 
 .card-front, .card-back {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   backface-visibility: hidden;
   border-radius: 10px;
   overflow: hidden;
@@ -114,17 +120,12 @@ button:hover {
   box-shadow: 0 0 10px #ff00ff44;
 }
 
-.card-front {
-  background: #1a001f;
-}
+.card-front { background: #1a001f; }
 
-.card-back {
-  transform: rotateY(180deg);
-}
+.card-back { transform: rotateY(180deg); }
 
 .card-back img {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -138,7 +139,6 @@ button:hover {
   100% { opacity: 0; transform: scale(0); }
 }
 
-/* Restart + Back buttons */
 .controls {
   display: flex;
   justify-content: center;
@@ -146,59 +146,11 @@ button:hover {
   margin-top: 15px;
 }
 
-.restart-btn,
-.back-btn {
-  margin-top: 10px;
-}
-
 /* Popup modal */
 .popup {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-content {
-  background: rgba(30, 0, 40, 0.95);
-  padding: 30px 50px;
-  border-radius: 15px;
-  text-align: center;
-  border: 2px solid #ff00ff88;
-  box-shadow: 0 0 30px #ff00ff;
-}
-
-.popup-content h2 {
-  color: #ff66ff;
-  margin-bottom: 20px;
-  text-shadow: 0 0 15px #ff00ff;
-}
-
-.popup-content button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  background: #ff33cc;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 15px #ff00ff;
-}
-
-.popup-content button:hover {
-  background: #ff00ff;
-}
-
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background: rgba(10, 0, 20, 0.9);
   display: flex;
   justify-content: center;
@@ -218,10 +170,11 @@ button:hover {
 .popup-content h2 {
   color: #ff66ff;
   margin-bottom: 20px;
+  text-shadow: 0 0 15px #ff00ff;
 }
 
 .popup-content button {
-  background: #ff33cc;
+  background: linear-gradient(45deg, #ff33cc, #cc00ff);
   color: white;
   border: none;
   border-radius: 8px;
@@ -232,10 +185,4 @@ button:hover {
 }
 
 .popup-content button:hover {
-  background: #ff00ff;
-  transform: scale(1.05);
-}
-
-.hidden {
-  display: none !important;
-}
+  background: linear-gradient(45deg, #ff00ff, #ff3
