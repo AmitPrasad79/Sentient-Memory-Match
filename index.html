@@ -2,57 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sentient Match</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sentient Pong</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
-
-  <!-- ====== MENU ====== -->
-  <div class="menu">
-    <h1>🧠 Sentient Match</h1>
-    <p><strong>How to Play:</strong><br>
-      Flip two cards to find a match.<br>
-      Match all pairs before time runs out!<br>
-      <strong>Score = all pairs matched.</strong>
+  <div id="menu">
+    <h1>🏓 Sentient Pong</h1>
+    <p>
+      <strong>How to Play:</strong><br>
+      The ball bounces off the top and bottom walls.<br>
+      Keep it alive as long as possible!<br>
+      If it goes out of the left or right side, you lose.<br>
+      <strong>Score = survival time.</strong>
     </p>
 
-    <label for="difficulty">Choose Grid Size:</label><br />
+    <label for="difficulty">Choose Difficulty:</label>
     <select id="difficulty">
-      <option value="4">4x4 (Easy)</option>
-      <option value="6" selected>6x6 (Normal)</option>
-      <option value="8">8x8 (Hard)</option>
-      <option value="10">10x10 (Insane)</option>
+      <option value="easy" selected>Easy</option>
+      <option value="normal">Normal</option>
+      <option value="hard">Hard</option>
     </select>
 
-    <br />
+    <br/><br/>
     <button id="startBtn">Start Game</button>
   </div>
 
-  <!-- ====== COUNTDOWN ====== -->
-  <div id="countdown" class="hidden"></div>
-
-  <!-- ====== GAME AREA ====== -->
-  <div id="gameArea" class="hidden">
-    <div id="timer"></div>
-    <div id="gameBoard" class="game-board"></div>
-    <div class="controls">
-      <button id="restartBtn" class="hidden">Restart</button>
-      <button id="backBtn" class="hidden">Back</button>
-    </div>
+  <canvas id="gameCanvas" width="800" height="500"></canvas>
+  <div id="gameOver" class="hidden">
+    <h2 id="winner"></h2>
+    <button id="restartBtn">Play Again</button>
   </div>
 
-  <!-- ====== POPUP ====== -->
-  <div id="popup" class="hidden">
-    <p id="popupMessage"></p>
-    <button id="popupClose">Close</button>
+  <div id="footer">
+    Made with ❤️ by 
+    <a href="https://twitter.com/0xBalls" target="_blank">@0xBalls</a>
   </div>
 
-  <footer>
-    Made with 💜 by <a href="#">@0xBalls</a>
-  </footer>
-
-  <script src="script.js"></script>
+  <script src="fall.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
