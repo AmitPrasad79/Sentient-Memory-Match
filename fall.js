@@ -9,7 +9,7 @@ window.addEventListener("resize", resizeBg);
 resizeBg();
 
 const img = new Image();
-img.src = "./images/sentient.png"; 
+img.src = "./assets/sentient.png"; 
 let balls = [];
 
 function createBall() {
@@ -37,9 +37,7 @@ function drawBall(b) {
 }
 
 function update() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.25)"; // subtle dark background fade
-  ctx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-
+  ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
   for (let b of balls) {
     b.y += b.speed;
     b.rotation += b.rotationSpeed;
