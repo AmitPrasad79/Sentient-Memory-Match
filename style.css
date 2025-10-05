@@ -132,3 +132,76 @@ select:hover {
 #footer a:hover {
   text-decoration: underline;
 }
+
+/* === Centered Menu Box === */
+#menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: rgba(30, 0, 40, 0.92);
+  border: 2px solid #ff00ff55;
+  border-radius: 20px;
+  padding: 30px 45px;
+  box-shadow: 0 0 25px #ff00ff55, inset 0 0 20px #6f00ff33;
+  text-align: center;
+  width: clamp(280px, 50%, 480px);
+}
+
+/* === Select Dropdown === */
+select {
+  background: linear-gradient(90deg, #ff00cc, #cc00ff);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px #ff00ff55;
+}
+
+select:hover {
+  background: linear-gradient(90deg, #cc00ff, #ff00cc);
+  transform: scale(1.05);
+}
+
+select option {
+  background: #15001f;
+  color: #fff;
+}
+
+/* === Start Button === */
+button {
+  background: linear-gradient(90deg, #ff00cc, #cc00ff);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 20px #ff00ff66;
+  transition: all 0.3s ease;
+  margin-top: 12px;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px #ff00ff99;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* === Responsive Box Adjustment === */
+@media (max-height: 700px) {
+  #menu {
+    top: 55%;
+    transform: translate(-50%, -50%);
+    padding: 20px 30px;
+  }
+}
+
