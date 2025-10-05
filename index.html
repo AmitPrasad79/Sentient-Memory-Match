@@ -1,49 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sentient Memory Match</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="container">
-    <h1 class="title">🧠 Sentient Memory Match</h1>
-    <p class="desc">
-      Test your sentient brain! Match pairs before time runs out.<br>
-      Choose your challenge and start.
-    </p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🏓 Sentient Pong</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="bgCanvas"></canvas>
 
-    <div class="menu">
+    <div id="menu">
+      <h1>🏓 Sentient Pong</h1>
+      <p>
+        <strong>How to Play:</strong><br />
+        The ball bounces off the top and bottom walls.<br />
+        Keep it alive as long as possible!<br />
+        If it goes out of the left or right side, you lose.<br />
+        <strong>Score = survival time.</strong>
+      </p>
+
+      <label for="difficulty">Choose Difficulty:</label>
       <select id="difficulty">
-        <option value="4">Easy (4x4)</option>
-        <option value="6">Medium (6x6)</option>
-        <option value="8">Hard (8x8)</option>
-        <option value="10">Extreme (10x10)</option>
+        <option value="easy" selected>Easy</option>
+        <option value="normal">Normal</option>
+        <option value="hard">Hard</option>
       </select>
-      <button id="startBtn">Start</button>
+
+      <br /><br />
+      <button id="startBtn">Start Game</button>
     </div>
 
-    <div id="countdown" class="countdown hidden">3</div>
+    <canvas id="gameCanvas" width="800" height="500"></canvas>
 
-    <div id="gameArea" class="game-area hidden">
-      <div id="timer" class="timer"></div>
-      <div id="gameBoard" class="game-board"></div>
-      <div class="controls">
-        <button id="backBtn" class="back-btn hidden">⬅ Back</button>
-        <button id="restartBtn" class="restart-btn hidden">Restart</button>
-      </div>
+    <div id="gameOver" class="hidden">
+      <h2 id="winner"></h2>
+      <button id="restartBtn">Play Again</button>
     </div>
-   </div>
 
-   <div id="popup" class="popup hidden">
-   <div class="popup-content">
-     <h2 id="popupMessage">You Win!</h2>
-     <button id="popupClose">OK</button>
-     </div>
-   </div>
+    <div id="footer">
+      Made with ❤️ by
+      <a href="https://twitter.com/0xBalls" target="_blank">@0xBalls</a>
+    </div>
 
-   <script src="fall.js"></script>
-   <script src="script.js"></script>
-</body>
+    <script src="fall.js"></script>
+    <script src="game.js"></script>
+  </body>
 </html>
