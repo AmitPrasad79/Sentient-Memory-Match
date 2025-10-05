@@ -7,10 +7,8 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Background Canvas -->
   <canvas id="bgCanvas"></canvas>
 
-  <!-- Main Game Container -->
   <div class="container">
     <h1 class="title">🧠 Sentient Memory Match</h1>
     <p class="desc">
@@ -18,21 +16,20 @@
       Choose your challenge and start.
     </p>
 
-    <!-- Menu -->
     <div class="menu">
-      <select id="difficulty">
-        <option value="4">Easy (4x4)</option>
-        <option value="6">Medium (6x6)</option>
-        <option value="8">Hard (8x8)</option>
-        <option value="10">Extreme (10x10)</option>
-      </select>
+      <div class="dropdown-container">
+        <select id="difficulty">
+          <option value="4">Easy (4x4)</option>
+          <option value="6">Medium (6x6)</option>
+          <option value="8">Hard (8x8)</option>
+          <option value="10">Extreme (10x10)</option>
+        </select>
+      </div>
       <button id="startBtn">Start</button>
     </div>
 
-    <!-- Countdown -->
     <div id="countdown" class="countdown hidden">3</div>
 
-    <!-- Game Area -->
     <div id="gameArea" class="game-area hidden">
       <div id="timer" class="timer"></div>
       <div id="gameBoard" class="game-board"></div>
@@ -43,15 +40,12 @@
     </div>
   </div>
 
-  <!-- Popup -->
-<div class="dropdown-container">
-  <select id="difficulty">
-    <option value="easy">Easy</option>
-    <option value="medium">Medium</option>
-    <option value="hard">Hard</option>
-  </select>
-</div>
-
+  <div id="popup" class="popup hidden">
+    <div class="popup-content">
+      <h2 id="popupMessage">You Win!</h2>
+      <button id="popupClose">OK</button>
+    </div>
+  </div>
 
   <script src="fall.js"></script>
   <script src="script.js"></script>
