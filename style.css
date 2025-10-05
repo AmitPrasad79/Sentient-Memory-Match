@@ -1,16 +1,4 @@
-/* === Background Canvas === */
-#bgCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at top, #0d001a 0%, #000 100%);
-}
-
-/* === Body === */
+/* === Body & Background === */
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -18,122 +6,21 @@ body {
   background: #0a0015;
   overflow: hidden;
   text-align: center;
-  position: relative;
-  z-index: 1;
+  height: 100vh;
 }
 
-/* === Menu (Centered Rectangle) === */
-#menu {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(20, 0, 30, 0.95);
-  border: 2px solid #ff00ff55;
-  border-radius: 15px;
-  padding: 40px 60px;
-  box-shadow: 0 0 25px #ff00ff55;
-  display: inline-block;
-  text-align: center;
-  z-index: 10;
-  width: 380px; /* ✅ Rectangle shape */
-}
-
-/* === Title === */
-#menu h1 {
-  font-size: 2.2rem;
-  color: #ff66ff;
-  text-shadow: 0 0 15px #ff00ff;
-  margin-bottom: 15px;
-}
-
-/* === Instructions === */
-#menu p {
-  font-size: 14px;
-  color: #ddd;
-  text-align: left;
-  margin-top: 8px;
-  line-height: 1.4;
-}
-
-/* === Dropdown & Buttons === */
-select,
-button {
-  background: #ff33cc;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 15px;
-  transition: all 0.3s ease;
-}
-
-/* ✅ Fix dropdown visibility */
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #ff33cc;
-  color: #fff;
-}
-
-select option {
-  background-color: #220033;
-  color: #fff;
-}
-
-/* Hover Effects */
-button:hover,
-select:hover {
-  background: #ff00ff;
-  transform: scale(1.05);
-}
-
-/* === Game Over Modal === */
-#gameOver {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(25, 0, 40, 0.95);
-  border: 2px solid #ff00ff55;
-  border-radius: 15px;
-  padding: 30px 50px;
-  display: none;
-  box-shadow: 0 0 25px #ff00ff55;
-  z-index: 15;
-  text-align: center;
-}
-
-#gameOver h2 {
-  color: #ff66ff;
-}
-
-#gameOver button {
-  margin-top: 10px;
-}
-
-/* === Footer === */
-#footer {
+#bgCanvas {
   position: fixed;
-  bottom: 10px;
+  top: 0;
+  left: 0;
   width: 100%;
-  color: #bbb;
-  z-index: 5;
+  height: 100%;
+  z-index: 0;
+  background: radial-gradient(circle at top, #0d001a 0%, #000 100%);
+  pointer-events: none;
 }
 
-#footer a {
-  color: #ff66ff;
-  text-decoration: none;
-}
-
-#footer a:hover {
-  text-decoration: underline;
-}
-
-/* === Centered Menu Box === */
+/* === Centered Menu === */
 #menu {
   position: absolute;
   top: 50%;
@@ -145,8 +32,14 @@ select:hover {
   border-radius: 20px;
   padding: 30px 45px;
   box-shadow: 0 0 25px #ff00ff55, inset 0 0 20px #6f00ff33;
-  text-align: center;
   width: clamp(280px, 50%, 480px);
+}
+
+#menu h1 {
+  font-size: 2rem;
+  color: #ff66ff;
+  text-shadow: 0 0 10px #ff00ff;
+  margin-bottom: 15px;
 }
 
 /* === Select Dropdown === */
@@ -160,6 +53,7 @@ select {
   font-weight: bold;
   transition: all 0.3s ease;
   box-shadow: 0 0 12px #ff00ff55;
+  margin-top: 8px;
 }
 
 select:hover {
@@ -172,7 +66,7 @@ select option {
   color: #fff;
 }
 
-/* === Start Button === */
+/* === Buttons === */
 button {
   background: linear-gradient(90deg, #ff00cc, #cc00ff);
   color: white;
@@ -196,12 +90,88 @@ button:active {
   transform: scale(0.98);
 }
 
-/* === Responsive Box Adjustment === */
-@media (max-height: 700px) {
-  #menu {
-    top: 55%;
-    transform: translate(-50%, -50%);
-    padding: 20px 30px;
-  }
+/* === Popup === */
+#popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(25, 0, 40, 0.95);
+  border: 2px solid #ff00ff88;
+  border-radius: 15px;
+  padding: 25px 40px;
+  z-index: 20;
+  display: none;
+  box-shadow: 0 0 20px #ff00ff55;
 }
 
+#popup p {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+/* === Hidden class === */
+.hidden {
+  display: none !important;
+}
+
+/* === Game Area === */
+#gameArea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#gameBoard {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#timer {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #ff66ff;
+  text-shadow: 0 0 5px #ff00ff;
+}
+
+/* === Footer === */
+#footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  color: #bbb;
+  font-size: 0.9rem;
+  z-index: 5;
+}
+
+#footer a {
+  color: #ff66ff;
+  text-decoration: none;
+}
+#footer a:hover {
+  text-decoration: underline;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  #menu {
+    padding: 20px 30px;
+  }
+
+  #menu h1 {
+    font-size: 1.6rem;
+  }
+
+  select, button {
+    font-size: 0.9rem;
+    padding: 8px 14px;
+  }
+}
