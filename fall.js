@@ -37,7 +37,9 @@ function drawBall(b) {
 }
 
 function update() {
-  ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+  ctx.fillStyle = "rgba(0, 0, 0, 0.25)"; // subtle dark background fade
+  ctx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+
   for (let b of balls) {
     b.y += b.speed;
     b.rotation += b.rotationSpeed;
