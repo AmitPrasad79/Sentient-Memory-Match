@@ -101,5 +101,14 @@
   }
 }
 
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* 👈 make sure it’s BEHIND other elements */
+  background: radial-gradient(circle at top, #0d001a 0%, #000 100%);
+}
 
 
