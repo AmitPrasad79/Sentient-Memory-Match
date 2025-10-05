@@ -7,6 +7,7 @@ const gameArea = document.getElementById("gameArea");
 const gameBoard = document.getElementById("gameBoard");
 const timerDisplay = document.getElementById("timer");
 const difficultySelect = document.getElementById("difficulty");
+
 const popup = document.getElementById("popup");
 const popupMessage = document.getElementById("popupMessage");
 const popupClose = document.getElementById("popupClose");
@@ -80,25 +81,28 @@ function startGame() {
   restartBtn.classList.remove("hidden");
   backBtn.classList.remove("hidden");
 
-  gameBoard.dataset.size = gridSize;
-  gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
-
   const total = gridSize * gridSize;
   const neededPairs = total / 2;
 
+  // Pick enough images for pairs — reuse if needed
   let selectedImgs = [];
   while (selectedImgs.length < neededPairs) {
     const shuffled = shuffle(images);
     selectedImgs = selectedImgs.concat(shuffled);
   }
   selectedImgs = selectedImgs.slice(0, neededPairs);
+
+  // Make pairs and shuffle again
   cards = shuffle([...selectedImgs, ...selectedImgs]);
 
+  // Safety check
   if (cards.length === 0) {
     showPopup("⚠️ No images found in /images folder!");
     return;
   }
 
+  // Build board
+  gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
   cards.forEach(src => {
     const card = document.createElement("div");
     card.className = "card";
@@ -120,14 +124,10 @@ function startGame() {
     card.appendChild(inner);
 
     card.addEventListener("click", () => flip(card));
-    card.addEventListener("touchend", (e) => {
-      e.preventDefault();
-      flip(card);
-    });
-
     gameBoard.appendChild(card);
   });
 
+  // Timer
   gameStarted = true;
   timer = setInterval(() => {
     timeLeft--;
@@ -179,6 +179,7 @@ function checkMatch() {
         a.style.visibility = "hidden";
         b.style.visibility = "hidden";
       }, 400);
+
       matched += 2;
       flipped = [];
       lockBoard = false;
