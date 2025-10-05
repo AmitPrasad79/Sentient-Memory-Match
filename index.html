@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sentient Pong</title>
+  <title>🏓 Sentient Pong</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Background snowfall canvas -->
   <canvas id="bgCanvas"></canvas>
+
+  <!-- Menu -->
   <div id="menu">
     <h1>🏓 Sentient Pong</h1>
     <p>
@@ -24,17 +27,20 @@
       <option value="normal">Normal</option>
       <option value="hard">Hard</option>
     </select>
-
-    <br/><br/>
+    <br><br>
     <button id="startBtn">Start Game</button>
   </div>
 
+  <!-- Main Game Canvas -->
   <canvas id="gameCanvas" width="800" height="500"></canvas>
+
+  <!-- Game Over -->
   <div id="gameOver" class="hidden">
     <h2 id="winner"></h2>
     <button id="restartBtn">Play Again</button>
   </div>
 
+  <!-- Footer -->
   <div id="footer">
     Made with ❤️ by 
     <a href="https://twitter.com/0xBalls" target="_blank">@0xBalls</a>
