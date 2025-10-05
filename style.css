@@ -1,203 +1,225 @@
-body {
-  margin: 0;
-  font-family: "Poppins", sans-serif;
-  color: #fff;
-  background: radial-gradient(circle at top, #0a0015 0%, #000 100%);
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* ✅ Responsive Game Board Grid */
+.game-board[data-size="4"] {
+  grid-template-columns: repeat(4, minmax(60px, 1fr));
+}
+
+.game-board[data-size="6"] {
+  grid-template-columns: repeat(6, minmax(45px, 1fr));
+}
+
+.game-board[data-size="8"] {
+  grid-template-columns: repeat(8, minmax(35px, 1fr));
+}
+
+.game-board[data-size="10"] {
+  grid-template-columns: repeat(10, minmax(28px, 1fr));
+}
+
+/* ✅ Make sure cards always stay square */
+.card {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: auto;
+}
+
+/* ✅ Mobile-Friendly Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 25px;
+    width: 90%;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .desc {
+    font-size: 0.9rem;
+  }
+
+  select,
+  button {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  .game-board {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .game-board[data-size="4"] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .game-board[data-size="6"] {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .game-board[data-size="8"] {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .game-board[data-size="10"] {
+    grid-template-columns: repeat(10, 1fr);
+  }
+
+  .card {
+    border-radius: 8px;
+    border-width: 1px;
+  }
+
+  .timer {
+    font-size: 14px;
+  }
+}
+
+/* ✅ Tiny Screens (Phones under 450px) */
+@media (max-width: 450px) {
+  .game-board[data-size="4"] {
+    grid-template-columns: repeat(4, minmax(45px, 1fr));
+  }
+
+  .game-board[data-size="6"] {
+    grid-template-columns: repeat(6, minmax(32px, 1fr));
+  }
+
+  .game-board[data-size="8"] {
+    grid-template-columns: repeat(8, minmax(24px, 1fr));
+  }
+
+  .game-board[data-size="10"] {
+    grid-template-columns: repeat(10, minmax(20px, 1fr));
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .desc {
+    font-size: 0.8rem;
+  }
 }
 
 #bgCanvas {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* 👈 make sure it’s BEHIND other elements */
+  background: radial-gradient(circle at top, #0d001a 0%, #000 100%);
 }
 
-/* ===== Menu ===== */
-.menu {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(25, 0, 40, 0.9);
-  border: 2px solid #ff00ff55;
-  border-radius: 20px;
-  padding: 35px 50px;
+
+/* === Background Canvas === */
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* ✅ below text but above body background */
+  pointer-events: none; /* ✅ makes sure it doesn't block clicks */
+  background: radial-gradient(circle at top, #0d001a 0%, #000 100%);
+}
+
+/* === Body === */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  background: #0a0015; /* fallback dark */
+  overflow: hidden;
   text-align: center;
-  width: clamp(280px, 80%, 480px);
-  box-shadow: 0 0 25px #ff00ff66;
-  z-index: 10;
+  position: relative;
+  z-index: 1;
 }
 
-.menu h1 {
+/* === Menu === */
+#menu {
+  position: relative;
+  z-index: 10; /* ✅ above canvas */
+  margin-top: 50px;
+  background: rgba(20, 0, 30, 0.9);
+  border: 2px solid #ff00ff55;
+  border-radius: 15px;
+  padding: 20px 40px;
+  display: inline-block;
+  box-shadow: 0 0 20px #ff00ff44;
+}
+
+#menu h1 {
   font-size: 2rem;
-  color: #ff77ff;
-  text-shadow: 0 0 15px #ff00ff;
-  margin-bottom: 15px;
+  color: #ff66ff;
+  text-shadow: 0 0 10px #ff00ff;
 }
 
-/* ===== Select ===== */
+#menu p {
+  font-size: 14px;
+  color: #ddd;
+  text-align: left;
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+/* === Buttons & Select === */
+button,
 select {
-  background: linear-gradient(90deg, #ff00cc, #cc00ff);
+  background: #ff33cc;
   color: #fff;
   border: none;
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-weight: 600;
-  box-shadow: 0 0 15px #ff00ff55;
-  margin-top: 8px;
-  transition: all 0.3s;
-}
-
-select:hover {
-  transform: scale(1.05);
-}
-
-select option {
-  background: #1a0025;
-  color: #fff;
-}
-
-/* ===== Buttons ===== */
-button {
-  background: linear-gradient(90deg, #ff00cc, #9900ff);
-  border: none;
-  color: white;
-  border-radius: 10px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 14px;
   cursor: pointer;
-  margin-top: 12px;
-  box-shadow: 0 0 20px #ff00ff88;
+  font-weight: bold;
+  margin-top: 10px;
   transition: all 0.3s ease;
 }
 
-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 30px #ff00ffaa;
+button:hover,
+select:hover {
+  background: #ff00ff;
+  transform: scale(1.05);
 }
 
-/* ===== Countdown ===== */
-#countdown {
-  font-size: 4rem;
-  color: #ff66ff;
-  text-shadow: 0 0 15px #ff00ff;
+/* === Game Over === */
+#gameOver {
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-}
-
-/* ===== Game Area ===== */
-#gameArea {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 5;
-}
-
-#timer {
-  font-size: 1.4rem;
-  margin-bottom: 15px;
-  color: #ff99ff;
-  text-shadow: 0 0 5px #ff00ff;
-}
-
-.game-board {
-  display: grid;
-  gap: 10px;
-}
-
-.card {
-  background: #1a0025;
-  border-radius: 10px;
-  perspective: 1000px;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  backface-visibility: hidden;
-}
-
-.card-front {
-  background: linear-gradient(145deg, #220033, #110022);
-}
-
-.card-back {
-  transform: rotateY(180deg);
-}
-
-.card-back img {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-/* ===== Popup ===== */
-#popup {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(25, 0, 40, 0.95);
-  border: 2px solid #ff00ff88;
+  background: rgba(25, 0, 40, 0.9);
+  border: 2px solid #ff00ff55;
   border-radius: 15px;
-  padding: 30px 45px;
-  text-align: center;
-  box-shadow: 0 0 25px #ff00ff66;
+  padding: 30px 50px;
   display: none;
-  z-index: 20;
+  box-shadow: 0 0 20px #ff00ff44;
+  z-index: 10;
 }
 
-#popup p {
-  margin-bottom: 10px;
-  color: #fff;
+#gameOver h2 {
+  color: #ff66ff;
 }
 
-/* ===== Footer ===== */
-footer {
+#gameOver button {
+  margin-top: 10px;
+}
+
+/* === Footer === */
+#footer {
   position: fixed;
   bottom: 10px;
   width: 100%;
   color: #bbb;
-  font-size: 0.9rem;
-  text-align: center;
   z-index: 5;
 }
 
-footer a {
+#footer a {
   color: #ff66ff;
   text-decoration: none;
 }
-footer a:hover {
+
+#footer a:hover {
   text-decoration: underline;
-}
-
-.hidden { display: none !important; }
-
-@media (max-width: 768px) {
-  .menu { padding: 25px 30px; }
-  .menu h1 { font-size: 1.6rem; }
 }
