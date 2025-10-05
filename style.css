@@ -192,3 +192,29 @@ button:hover, select:hover {
 .hidden {
   display: none !important;
 }
+
+select {
+  appearance: none;           /* Remove default browser styles */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #1a001f;        /* Dark background */
+  color: #fff;                /* White text */
+  border: 2px solid #ff00ff88;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 0 15px #ff00ff44;
+}
+
+select option {
+  background: #1a001f;        /* Dark background for dropdown */
+  color: #fff;                /* White text for all options */
+  padding: 10px;
+}
+
+select:focus {
+  border-color: #ff33cc;
+  box-shadow: 0 0 20px #ff00ff;
+}
