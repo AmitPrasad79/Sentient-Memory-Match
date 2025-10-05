@@ -137,16 +137,20 @@ body {
 }
 
 /* === Menu === */
+/* === Menu === */
 #menu {
-  position: relative;
-  z-index: 10; /* ✅ above canvas */
-  margin-top: 50px;
+  position: absolute; /* ✅ position it relative to the screen */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* ✅ perfectly center it */
+  z-index: 10; /* ✅ stays above the background */
   background: rgba(20, 0, 30, 0.9);
   border: 2px solid #ff00ff55;
   border-radius: 15px;
   padding: 20px 40px;
   display: inline-block;
   box-shadow: 0 0 20px #ff00ff44;
+  text-align: center;
 }
 
 #menu h1 {
