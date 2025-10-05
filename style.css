@@ -1,267 +1,157 @@
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #090013;
+  font-family: "Poppins", sans-serif;
+  background: #000;
   color: #fff;
+  overflow: hidden;
 }
 
-/* Background canvas behind everything */
 #bgCanvas {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: -1;
-  background: #090013;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
-/* Centered game container */
 .container {
+  position: relative;
+  z-index: 1;
   text-align: center;
-  background: rgba(20, 0, 30, 0.9);
-  border: 3px solid #ff00ff66;
-  border-radius: 20px;
-  padding: 30px 50px;
-  box-shadow: 0 0 40px #ff00ff66;
-  max-width: 600px;
-  width: 90%;
+  padding: 40px 20px;
 }
 
 .title {
-  font-size: 2rem;
-  color: #ff66ff;
+  font-size: 2.5em;
+  margin-bottom: 10px;
   text-shadow: 0 0 20px #ff00ff;
 }
 
 .desc {
-  font-size: 14px;
+  color: #bbb;
   margin-bottom: 20px;
-  color: #ddd;
 }
 
+/* Menu */
 .menu {
-  margin-bottom: 20px;
-}
-
-select, button {
-  background: linear-gradient(45deg, #ff33cc, #cc00ff);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 18px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 5px;
-  transition: all 0.3s ease;
-}
-
-button:hover, select:hover {
-  background: linear-gradient(45deg, #ff00ff, #ff33cc);
-  transform: scale(1.05);
-}
-
-.countdown {
-  font-size: 80px;
-  font-weight: bold;
-  color: #ff66ff;
-  text-shadow: 0 0 30px #ff00ff;
-  margin-top: 20px;
-}
-
-.hidden { display: none; }
-
-.game-area { margin-top: 20px; }
-
-.timer {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #ffccff;
-}
-
-.game-board {
-  display: grid;
+  display: flex;
   justify-content: center;
-  gap: 10px;
-  background: rgba(40, 0, 60, 0.6);
-  border-radius: 20px;
-  padding: 15px;
-  border: 2px solid #ff00ff55;
-  box-shadow: 0 0 20px #ff00ff44;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
-.card {
-  width: 70px;
-  height: 70px;
-  perspective: 800px;
-  cursor: pointer;
-}
-
-.card-inner {
+/* Dropdown styling */
+.dropdown-container {
   position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
 }
-
-.card.flipped .card-inner { transform: rotateY(180deg); }
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%; height: 100%;
-  backface-visibility: hidden;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid #ff00ff55;
-  box-shadow: 0 0 10px #ff00ff44;
-}
-
-.card-front { background: #1a001f; }
-
-.card-back { transform: rotateY(180deg); }
-
-.card-back img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.card.matched {
-  animation: vanish 0.4s forwards ease-in-out;
-}
-
-@keyframes vanish {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0); }
-}
-
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-/* Popup modal */
-.popup {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(10, 0, 20, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-content {
-  background: #2a003a;
-  padding: 30px 50px;
-  border-radius: 20px;
-  border: 3px solid #ff00ff66;
-  box-shadow: 0 0 40px #ff00ff99;
-  text-align: center;
-}
-
-.popup-content h2 {
-  color: #ff66ff;
-  margin-bottom: 20px;
-  text-shadow: 0 0 15px #ff00ff;
-}
-
-.popup-content button {
-  background: linear-gradient(45deg, #ff33cc, #cc00ff);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.popup-content button:hover {
-  background: linear-gradient(45deg, #ff00ff, #ff33cc);
-  transform: scale(1.05);
-}
-
-.hidden {
-  display: none !important;
-}
-
 select {
-  appearance: none;           /* Remove default browser styles */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: #1a001f;        /* Dark background */
-  color: #fff;                /* White text */
-  border: 2px solid #ff00ff88;
+  background: #111;
+  border: 2px solid #ff00ff;
   border-radius: 8px;
-  padding: 10px 16px;
-  font-weight: bold;
+  padding: 10px 30px 10px 12px;
+  color: #fff;
+  font-size: 16px;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 0 15px #ff00ff44;
+  appearance: none;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
 }
-
-select option {
-  background: #1a001f;        /* Dark background for dropdown */
-  color: #fff;                /* White text for all options */
-  padding: 10px;
+select:hover {
+  background: #1a001a;
 }
-
-select:focus {
-  border-color: #ff33cc;
-  box-shadow: 0 0 20px #ff00ff;
-}
-
-/* Dropdown wrapper for better styling */
-.menu select {
-  appearance: none;             /* Remove default arrow */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: #1a001f;          /* Dark neon bg */
-  color: #fff;                  /* White text */
-  border: 2px solid #ff00ff88;
-  border-radius: 8px;
-  padding: 10px 40px 10px 16px; /* Extra right padding for arrow space */
-  font-weight: bold;
-  cursor: pointer;
-  outline: none;
-  box-shadow: 0 0 15px #ff00ff44;
-  position: relative;
-  font-size: 15px;
-  transition: 0.3s ease;
-}
-
-/* Neon glow on hover/focus */
-.menu select:hover,
-.menu select:focus {
-  border-color: #ff33cc;
-  box-shadow: 0 0 20px #ff00ff;
-}
-
-/* Custom down arrow */
-.menu select::after {
+.dropdown-container::after {
   content: "▼";
-  font-size: 14px;
-  color: #ff66ff;
   position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 10px;
+  top: 12px;
+  color: #ff00ff;
   pointer-events: none;
 }
 
-/* Style dropdown options */
-.menu select option {
-  background: #1a001f;
-  color: #fff;
-  padding: 10px;
-  font-weight: bold;
+/* Start button */
+#startBtn {
+  background: #ff00ff;
   border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+  box-shadow: 0 0 15px #ff00ff;
+}
+#startBtn:hover {
+  background: #fff;
+  color: #ff00ff;
+}
+
+/* Countdown */
+.countdown {
+  font-size: 5em;
+  text-shadow: 0 0 30px #ff00ff;
+  animation: pulse 1s infinite;
+}
+.hidden {
+  display: none;
+}
+
+/* Game Area */
+#gameArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+#gameBoard {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  align-content: center;
+  width: 90%;
+  max-width: 700px;
+  max-height: 700px;
+  aspect-ratio: 1 / 1;
+}
+
+.card {
+  background: #111;
+  border: 2px solid #ff00ff;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
+  transition: transform 0.3s;
+}
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.popup-content {
+  background: #111;
+  padding: 30px 50px;
+  border: 2px solid #ff00ff;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 30px #ff00ff;
+}
+
+/* Animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
 }
