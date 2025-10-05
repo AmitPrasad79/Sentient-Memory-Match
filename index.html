@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Background Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Main Game Container -->
   <div class="container">
     <h1 class="title">🧠 Sentient Memory Match</h1>
     <p class="desc">
@@ -39,7 +43,7 @@
     </div>
   </div>
 
-  <!-- Popup for Win/Lose -->
+  <!-- Popup -->
   <div id="popup" class="popup hidden">
     <div class="popup-content">
       <h2 id="popupMessage">You Win!</h2>
@@ -47,6 +51,7 @@
     </div>
   </div>
 
+  <script src="fall.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
