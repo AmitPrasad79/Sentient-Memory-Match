@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sentient Pong</title>
+  <title>Sentient Match</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
 
   <!-- ====== MENU ====== -->
-  <div id="menu" class="menu">
-    <h1>🎯 Sentient Pong</h1>
+  <div class="menu">
+    <h1>🧠 Sentient Match</h1>
     <p><strong>How to Play:</strong><br>
-      The ball bounces off the top and bottom walls.<br>
-      Keep it alive as long as possible!<br>
-      If it goes out of the left or right side, you lose.<br>
-      <strong>Score = survival time.</strong>
+      Flip two cards to find a match.<br>
+      Match all pairs before time runs out!<br>
+      <strong>Score = all pairs matched.</strong>
     </p>
 
-    <label for="difficulty">Choose Difficulty:</label><br />
+    <label for="difficulty">Choose Grid Size:</label><br />
     <select id="difficulty">
-      <option value="4">Easy</option>
-      <option value="6" selected>Normal</option>
-      <option value="8">Hard</option>
-      <option value="10">Insane</option>
+      <option value="4">4x4 (Easy)</option>
+      <option value="6" selected>6x6 (Normal)</option>
+      <option value="8">8x8 (Hard)</option>
+      <option value="10">10x10 (Insane)</option>
     </select>
-    <br>
+
+    <br />
     <button id="startBtn">Start Game</button>
   </div>
 
@@ -37,8 +37,10 @@
   <div id="gameArea" class="hidden">
     <div id="timer"></div>
     <div id="gameBoard" class="game-board"></div>
-    <button id="restartBtn" class="hidden">Restart</button>
-    <button id="backBtn" class="hidden">Back</button>
+    <div class="controls">
+      <button id="restartBtn" class="hidden">Restart</button>
+      <button id="backBtn" class="hidden">Back</button>
+    </div>
   </div>
 
   <!-- ====== POPUP ====== -->
@@ -47,8 +49,8 @@
     <button id="popupClose">Close</button>
   </div>
 
-  <footer id="footer">
-    Made with 💖 by <a href="#">@0xBalls</a>
+  <footer>
+    Made with 💜 by <a href="#">@0xBalls</a>
   </footer>
 
   <script src="script.js"></script>
