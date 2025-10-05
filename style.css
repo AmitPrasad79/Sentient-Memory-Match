@@ -129,6 +129,7 @@ select:hover {
 }
 
 /* Popup */
+/* Popup */
 .popup {
   position: fixed;
   top: 0;
@@ -139,16 +140,51 @@ select:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 9999; /* ensures popup is on top of everything */
 }
+
 .popup-content {
   background: #111;
-  padding: 30px 50px;
-  border: 2px solid #ff00ff;
-  border-radius: 12px;
+  padding: 40px 60px;
+  border: 3px solid #ff00ff;
+  border-radius: 15px;
   text-align: center;
-  box-shadow: 0 0 30px #ff00ff;
+  box-shadow: 0 0 35px 10px #ff00ff;
+  color: #fff;
+  animation: popupGlow 1.2s ease-in-out infinite alternate;
 }
+
+#popupMessage {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+#popupClose {
+  background: #ff00ff;
+  border: none;
+  color: #000;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px #ff00ff;
+}
+
+#popupClose:hover {
+  background: #fff;
+  color: #ff00ff;
+  box-shadow: 0 0 25px 10px #ff00ff;
+}
+
+/* Glow animation */
+@keyframes popupGlow {
+  from { box-shadow: 0 0 20px 5px #ff00ff; }
+  to { box-shadow: 0 0 40px 15px #ff00ff; }
+}
+
 
 /* Animation */
 @keyframes pulse {
