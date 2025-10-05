@@ -218,3 +218,50 @@ select:focus {
   border-color: #ff33cc;
   box-shadow: 0 0 20px #ff00ff;
 }
+
+/* Dropdown wrapper for better styling */
+.menu select {
+  appearance: none;             /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: #1a001f;          /* Dark neon bg */
+  color: #fff;                  /* White text */
+  border: 2px solid #ff00ff88;
+  border-radius: 8px;
+  padding: 10px 40px 10px 16px; /* Extra right padding for arrow space */
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 0 15px #ff00ff44;
+  position: relative;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+
+/* Neon glow on hover/focus */
+.menu select:hover,
+.menu select:focus {
+  border-color: #ff33cc;
+  box-shadow: 0 0 20px #ff00ff;
+}
+
+/* Custom down arrow */
+.menu select::after {
+  content: "▼";
+  font-size: 14px;
+  color: #ff66ff;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Style dropdown options */
+.menu select option {
+  background: #1a001f;
+  color: #fff;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+}
