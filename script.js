@@ -12,7 +12,6 @@ const popup = document.getElementById("popup");
 const popupMessage = document.getElementById("popupMessage");
 const popupClose = document.getElementById("popupClose");
 
-// ==== GAME VARIABLES ====
 let cards = [];
 let flipped = [];
 let matched = 0;
@@ -22,11 +21,9 @@ let timer = null;
 let lockBoard = false;
 let gameStarted = false;
 
-// ==== IMAGES ====
 const images = Array.from({ length: 30 }, (_, i) => `images/img${i + 1}.png`);
 const times = { 4: 120, 6: 180, 8: 240, 10: 300 };
 
-// ==== EVENT LISTENERS ====
 startBtn.addEventListener("click", startCountdown);
 restartBtn.addEventListener("click", () => startCountdown());
 backBtn.addEventListener("click", goBack);
@@ -35,7 +32,6 @@ popupClose.addEventListener("click", () => {
   goBack();
 });
 
-// ==== SHUFFLE ====
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -45,7 +41,6 @@ function shuffle(arr) {
   return a;
 }
 
-// ==== COUNTDOWN ====
 function startCountdown() {
   document.querySelector(".menu").classList.add("hidden");
   countdownEl.classList.remove("hidden");
@@ -66,7 +61,6 @@ function startCountdown() {
   }, 800);
 }
 
-// ==== START GAME ====
 function startGame() {
   clearInterval(timer);
   gameBoard.innerHTML = "";
@@ -84,7 +78,6 @@ function startGame() {
   const total = gridSize * gridSize;
   const neededPairs = total / 2;
 
-  // Pick enough images for pairs — reuse if needed
   let selectedImgs = [];
   while (selectedImgs.length < neededPairs) {
     const shuffled = shuffle(images);
@@ -92,16 +85,13 @@ function startGame() {
   }
   selectedImgs = selectedImgs.slice(0, neededPairs);
 
-  // Make pairs and shuffle again
   cards = shuffle([...selectedImgs, ...selectedImgs]);
 
-  // Safety check
   if (cards.length === 0) {
     showPopup("⚠️ No images found in /images folder!");
     return;
   }
 
-  // Build board
   gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
   cards.forEach(src => {
     const card = document.createElement("div");
@@ -127,7 +117,6 @@ function startGame() {
     gameBoard.appendChild(card);
   });
 
-  // Timer
   gameStarted = true;
   timer = setInterval(() => {
     timeLeft--;
@@ -140,7 +129,6 @@ function startGame() {
   }, 1000);
 }
 
-// ==== FLIP LOGIC ====
 function flip(card) {
   if (!gameStarted || lockBoard) return;
   if (card.classList.contains("flipped") || card.classList.contains("matched")) return;
@@ -200,7 +188,6 @@ function checkMatch() {
   }, 600);
 }
 
-// ==== UI HELPERS ====
 function goBack() {
   clearInterval(timer);
   gameArea.classList.add("hidden");
